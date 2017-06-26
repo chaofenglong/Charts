@@ -700,7 +700,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.addLine(to: CGPoint(x:barRect.minX,y:barRect.maxY))
                 context.addLine(to: CGPoint(x:barRect.minX,y:barRect.minY))
                 
-                if barRect.height>0 && isRounded {
+                if (barRect.height>0 && isRounded && isStack == false )||(y1 != 0){
                     context.addArc(center: CGPoint(x: barRect.minX + barRect.width / 2, y: barRect.minY), radius: barRect.width / 2, startAngle: CGFloat.pi, endAngle: 0, clockwise: false)
                 }else{
                     context.addLine(to: CGPoint(x:barRect.maxX,y:barRect.minY))
