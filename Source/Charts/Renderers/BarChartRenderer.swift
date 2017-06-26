@@ -316,7 +316,17 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            context.move(to: CGPoint(x:barRect.maxX,y:barRect.maxY))
+            context.addLine(to: CGPoint(x:barRect.minX,y:barRect.maxY))
+            context.addLine(to: CGPoint(x:barRect.minX,y:barRect.minY))
+            
+            if barRect.height>0 && isRounded {
+                context.addArc(center: CGPoint(x: barRect.minX + barRect.width / 2, y: barRect.minY), radius: barRect.width / 2, startAngle: CGFloat.pi, endAngle: 0, clockwise: false)
+            }else{
+                context.addLine(to: CGPoint(x:barRect.maxX,y:barRect.minY))
+            }
+            context.fillPath()
+            
             
             if drawBorder
             {
@@ -685,7 +695,18 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 
-                context.fill(barRect)
+                
+                context.move(to: CGPoint(x:barRect.maxX,y:barRect.maxY))
+                context.addLine(to: CGPoint(x:barRect.minX,y:barRect.maxY))
+                context.addLine(to: CGPoint(x:barRect.minX,y:barRect.minY))
+                
+                if barRect.height>0 && isRounded {
+                    context.addArc(center: CGPoint(x: barRect.minX + barRect.width / 2, y: barRect.minY), radius: barRect.width / 2, startAngle: CGFloat.pi, endAngle: 0, clockwise: false)
+                }else{
+                    context.addLine(to: CGPoint(x:barRect.maxX,y:barRect.minY))
+                }
+                context.fillPath()
+                
             }
         }
         
@@ -697,4 +718,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         high.setDraw(x: barRect.midX, y: barRect.origin.y)
     }
+    
+    /// rounded corners
+    open var isRounded : Bool = false
 }
